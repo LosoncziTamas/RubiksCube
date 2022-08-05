@@ -6,15 +6,29 @@ namespace RubiksCube
 {
     public class Block : MonoBehaviour
     {
+        private const int MaxColliderCount = 9;
+        private static readonly Vector3 HorizontalOverlapBoxExtents = new(4, 0.25f, 4);
+        private static readonly Vector3 VerticalOverlapBoxExtents = new(0.25f, 4, 4);
+
+        [SerializeField] private LayerMask _layer;
         [SerializeField] private List<BlockSide> _sides;
 
-        private Collider[] _colliders;
+        private readonly Collider[] _colliders = new Collider[MaxColliderCount];
 
         private void GetHorizontalPieces()
         {
-            var extents = new Vector3(3, 0.25f, 3);
-            // TODO use non-alloc
-            _colliders = Physics.OverlapBox(transform.position, extents);
+            Physics.OverlapBoxNonAlloc(transform.position, HorizontalOverlapBoxExtents, _colliders, Quaternion.identity, _layer.value);
+        }
+
+        private void GetVerticalPieces()
+        {
+            Physics.OverlapBoxNonAlloc(transform.position, VerticalOverlapBoxExtents, _colliders, Quaternion.identity, _layer.value);
+        }
+
+        private void OnDrawGizmos()
+        {
+            Gizmos.DrawWireCube(transform.position, HorizontalOverlapBoxExtents);
+            Gizmos.DrawWireCube(transform.position, VerticalOverlapBoxExtents);
         }
 
         private void OnGUI()
@@ -25,7 +39,10 @@ namespace RubiksCube
                 GetHorizontalPieces();
                 foreach (var c in _colliders)
                 {
-                    Debug.Log(c.transform.position);
+                    if (c != null)
+                    {
+                        Debug.Log(c.transform.parent.name);
+                    }
                 }
             }
         }

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8460173545786693355}
   - component: {fileID: 7347834037994326227}
   - component: {fileID: 3921609985379180841}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -149,6 +149,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d636f3c266fe943f4a25001480760d90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _layer:
+    serializedVersion: 2
+    m_Bits: 8
   _sides:
   - {fileID: 1030162903859981554}
   - {fileID: 3487711042668404065}
