@@ -29,6 +29,7 @@ namespace RubiksCube
         {
             _stringBuilder.Append(text);
             _stringBuilder.Append("\n");
+            Debug.Log(text);
         }
         
         public void Print(params object[] values)
@@ -39,6 +40,7 @@ namespace RubiksCube
                 _stringBuilder.Append(" ");
             }
             _stringBuilder.Append("\n");
+            Debug.Log(string.Concat(values));
         }
 
         private void OnGUI()
@@ -54,7 +56,7 @@ namespace RubiksCube
 
         private IEnumerator Loop()
         {
-            while (true)
+            while (isActiveAndEnabled)
             {
                 yield return _waitForEndOfFrame;
                 if (_stringBuilder.Length > 0)
