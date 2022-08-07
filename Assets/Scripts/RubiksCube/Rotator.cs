@@ -14,6 +14,7 @@ namespace RubiksCube
         [Header("Debug Utilities")]
         [SerializeField] private bool _drawGizmos = false;
         [SerializeField] private float _pivotSphereRadius = 0.1f;
+        [SerializeField] private float _rotationSpeed = 300.0f;
         
         [Header("Parameters")]
         [SerializeField] private LayerMask _layer;
@@ -82,40 +83,30 @@ namespace RubiksCube
         {
             DebugGui.Instance.Print("OnBeginDrag0", eventData.delta);
             
-            List<Collider> pieces = null;
-            var pivot = default(Vector3?);
-            var axis = default(Vector3);
-            var orientation = default(Orientation?);
             if (HorizontalDrag(eventData.delta))
-            {
-                pieces = DetermineHorizontalPieces();
-                pivot = HorizontalPivot;
-                axis = Vector3.up;
-                orientation = Orientation.Horizontal;
-            }
-            else if (VerticalDrag(eventData.delta))
-            {
-                pieces = DetermineVerticalPieces();
-                pivot = VerticalPivot;
-                axis = Vector3.right;
-                orientation = Orientation.Vertical;
-            }
-            
-            if (pieces != null)
             {
                 _rotation = new Rotation
                 {
-                    Pivot = pivot.Value,
-                    ObjectsToRotate = pieces.Select(c => c.transform).ToList(),
-                    Axis = axis,
-                    Orientation = orientation.Value
+                    Pivot = HorizontalPivot,
+                    ObjectsToRotate = DetermineHorizontalPieces().Select(c => c.transform).ToList(),
+                    Axis = Vector3.up,
+                    Orientation = Orientation.Horizontal
+                };
+            }
+            else if (VerticalDrag(eventData.delta))
+            {
+                _rotation = new Rotation
+                {
+                    Pivot = VerticalPivot,
+                    ObjectsToRotate = DetermineVerticalPieces().Select(c => c.transform).ToList(),
+                    Axis = Vector3.right,
+                    Orientation = Orientation.Vertical
                 };
             }
         }
 
         public void OnDrag(PointerEventData eventData)
         {
-            DebugGui.Instance.Print("OnDrag", eventData.delta);
             if (_rotation == null)
             {
                 return;
@@ -124,10 +115,19 @@ namespace RubiksCube
             var delta = eventData.delta;
             if (Mathf.Approximately(delta.magnitude, 0))
             {
+                var rotation = transform.rotation.eulerAngles;
+                if (_rotation.Orientation == Orientation.Horizontal)
+                {
+                    
+                }
+                else if (_rotation.Orientation == Orientation.Vertical)
+                {
+                    
+                }
                 return;
             }
 
-            var angle = 1.0f;
+            var angle = _rotationSpeed * Time.deltaTime;
             if (_rotation.Orientation == Orientation.Horizontal)
             {
                 angle = delta.x < 0 ? angle : -angle;
@@ -140,6 +140,33 @@ namespace RubiksCube
             foreach (var trans in _rotation.ObjectsToRotate)
             {
                 trans.transform.RotateAround(_rotation.Pivot, _rotation.Axis, angle);
+            }
+            DebugGui.Instance.Print("Rotation", transform.rotation.eulerAngles);
+
+        }
+
+        private void FixedUpdate()
+        {
+            return;
+            if (_rotation == null)
+            {
+                return;
+            }
+
+            var rotation = transform.rotation.eulerAngles;
+            const float threshold = 30.0f;
+            if (_rotation.Orientation == Orientation.Horizontal)
+            {
+                var angleY = rotation.y;
+                if (Mathf.Abs(angleY - 0.0f) < threshold)
+                {
+                    
+                }
+
+            }
+            else if (_rotation.Orientation == Orientation.Vertical)
+            {
+                
             }
         }
 
