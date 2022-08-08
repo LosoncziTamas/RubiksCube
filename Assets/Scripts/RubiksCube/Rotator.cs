@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -14,7 +15,7 @@ namespace RubiksCube
         [Header("Debug Utilities")]
         [SerializeField] private bool _drawGizmos = false;
         [SerializeField] private float _pivotSphereRadius = 0.1f;
-        [SerializeField] private float _rotationSpeed = 300.0f;
+        [SerializeField] private float _rotationSpeed = 1.0f;
         
         [Header("Parameters")]
         [SerializeField] private LayerMask _layer;
@@ -113,21 +114,7 @@ namespace RubiksCube
             }
 
             var delta = eventData.delta;
-            if (Mathf.Approximately(delta.magnitude, 0))
-            {
-                var rotation = transform.rotation.eulerAngles;
-                if (_rotation.Orientation == Orientation.Horizontal)
-                {
-                    
-                }
-                else if (_rotation.Orientation == Orientation.Vertical)
-                {
-                    
-                }
-                return;
-            }
-
-            var angle = _rotationSpeed * Time.deltaTime;
+            var angle = _rotationSpeed;
             if (_rotation.Orientation == Orientation.Horizontal)
             {
                 angle = delta.x < 0 ? angle : -angle;
@@ -141,38 +128,45 @@ namespace RubiksCube
             {
                 trans.transform.RotateAround(_rotation.Pivot, _rotation.Axis, angle);
             }
-            DebugGui.Instance.Print("Rotation", transform.rotation.eulerAngles);
-
-        }
-
-        private void FixedUpdate()
-        {
-            return;
-            if (_rotation == null)
-            {
-                return;
-            }
-
-            var rotation = transform.rotation.eulerAngles;
-            const float threshold = 30.0f;
-            if (_rotation.Orientation == Orientation.Horizontal)
-            {
-                var angleY = rotation.y;
-                if (Mathf.Abs(angleY - 0.0f) < threshold)
-                {
-                    
-                }
-
-            }
-            else if (_rotation.Orientation == Orientation.Vertical)
-            {
-                
-            }
+            DebugGui.Instance.Print("Rotation", transform.rotation.eulerAngles, "angle", angle);
         }
 
         public void OnEndDrag(PointerEventData eventData)
         {
-            DebugGui.Instance.Print("OnEndDrag", eventData.delta);
+            var currentRotation = transform.rotation.eulerAngles;
+            var y = Mathf.RoundToInt(currentRotation.y);
+            
+            var diff0 = Mathf.Abs(y);
+            var diff1 = Mathf.Abs(y - 360);
+            var diff2 = Mathf.Abs(y - 90);
+            var diff3 = Mathf.Abs(y - 180);
+            var diff4 = Mathf.Abs(y - 270);
+            var minDiff = Mathf.Min(diff1, diff2, diff3, diff4);
+
+            var targetAngle = 0;
+            
+            if (minDiff == diff1 || minDiff == diff0)
+            {
+                targetAngle = 0;
+            }
+            else if (minDiff == diff2)
+            {
+                targetAngle = 90;
+            }
+            else if (minDiff == diff3)
+            {
+                targetAngle = 180;
+            }
+            else if (minDiff == diff4)
+            {
+                targetAngle = 270;
+            }
+
+            foreach (var t in _rotation.ObjectsToRotate)
+            {
+                t.RotateAround(_rotation.Pivot, _rotation.Axis, targetAngle - y);
+            }
+            DebugGui.Instance.Print("OnEndDrag", eventData.delta, "final rotation", currentRotation, "targetAngle", targetAngle);
             _rotation = null;
         }
 
