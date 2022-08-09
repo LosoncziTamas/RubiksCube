@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -133,6 +132,11 @@ namespace RubiksCube
 
         public void OnEndDrag(PointerEventData eventData)
         {
+            if (_rotation == null)
+            {
+                return;
+            }
+            
             var currentRotation = transform.rotation.eulerAngles;
             var y = Mathf.RoundToInt(currentRotation.y);
             
@@ -141,7 +145,7 @@ namespace RubiksCube
             var diff2 = Mathf.Abs(y - 90);
             var diff3 = Mathf.Abs(y - 180);
             var diff4 = Mathf.Abs(y - 270);
-            var minDiff = Mathf.Min(diff1, diff2, diff3, diff4);
+            var minDiff = Mathf.Min(diff0, diff1, diff2, diff3, diff4);
 
             var targetAngle = 0;
             
