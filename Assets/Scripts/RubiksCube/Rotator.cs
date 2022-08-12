@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using ProtoPack.Tween;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -18,6 +19,7 @@ namespace RubiksCube
         
         [Header("Parameters")]
         [SerializeField] private LayerMask _layer;
+        [SerializeField] private RotateTweenProperties _rotateTweenProperties;
         
         private readonly Collider[] _colliders = new Collider[MaxColliderCount];
 
@@ -128,6 +130,11 @@ namespace RubiksCube
                 trans.transform.RotateAround(_rotation.Pivot, _rotation.Axis, angle);
             }
             DebugGui.Instance.Print("Rotation", transform.rotation.eulerAngles, "angle", angle);
+        }
+
+        private void AnimateRotation()
+        {
+            // TODO: animate
         }
 
         public void OnEndDrag(PointerEventData eventData)
