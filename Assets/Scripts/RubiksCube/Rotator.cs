@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using DG.Tweening;
 using ProtoPack.Tween;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -124,17 +125,25 @@ namespace RubiksCube
             {
                 angle = delta.y > 0 ? angle : -angle;
             }
-            
+
+            var tempParent = new GameObject("Temp Parent");
+            tempParent.transform.position = Vector3.zero;
             foreach (var trans in _rotation.ObjectsToRotate)
             {
+                trans.SetParent(tempParent.transform);
                 trans.transform.RotateAround(_rotation.Pivot, _rotation.Axis, angle);
             }
             DebugGui.Instance.Print("Rotation", transform.rotation.eulerAngles, "angle", angle);
         }
 
-        private void AnimateRotation()
+        private void AnimateRotation(List<Transform> objectsToRotate, float angle)
         {
-            // TODO: animate
+            foreach (var t in objectsToRotate)
+            {
+                var target = t.rotation;
+                
+                // t.DORotate(_rotateTweenProperties.EndValue, _rotateTweenProperties.Duration).SetEase(_rotateTweenProperties.Ease).set;
+            }
         }
 
         public void OnEndDrag(PointerEventData eventData)
