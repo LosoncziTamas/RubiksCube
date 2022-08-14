@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
@@ -27,6 +28,7 @@ namespace RubiksCube
         private Vector3? _horizontalPivot;
         private Vector3? _verticalPivot;
         private Rotation _rotation;
+        private Transform _originalParent;
 
         public class Rotation
         {
@@ -34,6 +36,7 @@ namespace RubiksCube
             public Vector3 Pivot;
             public Vector3 Axis;
             public Orientation Orientation;
+            public Transform ParentTransform;
         }
 
         private Vector3 HorizontalPivot
@@ -68,6 +71,11 @@ namespace RubiksCube
             return result;
         }
 
+        private void Awake()
+        {
+            _originalParent = transform.parent;
+        }
+
         private void OnDrawGizmos()
         {
             if (!_drawGizmos)
@@ -88,22 +96,38 @@ namespace RubiksCube
             
             if (HorizontalDrag(eventData.delta))
             {
+                var objects = DetermineHorizontalPieces().Select(c => c.transform).ToList();
+                var parentTrans = new GameObject("Temp parent").transform;
+                parentTrans.position = Vector3.zero;
+                foreach (var obj in objects)
+                {
+                    obj.SetParent(parentTrans);
+                }
                 _rotation = new Rotation
                 {
                     Pivot = HorizontalPivot,
-                    ObjectsToRotate = DetermineHorizontalPieces().Select(c => c.transform).ToList(),
+                    ObjectsToRotate = objects,
                     Axis = Vector3.up,
-                    Orientation = Orientation.Horizontal
+                    Orientation = Orientation.Horizontal,
+                    ParentTransform = parentTrans
                 };
             }
             else if (VerticalDrag(eventData.delta))
             {
+                var objects = DetermineVerticalPieces().Select(c => c.transform).ToList();
+                var parentTrans = new GameObject("Temp parent").transform;
+                parentTrans.position = Vector3.zero;
+                foreach (var obj in objects)
+                {
+                    obj.SetParent(parentTrans);
+                }
                 _rotation = new Rotation
                 {
                     Pivot = VerticalPivot,
-                    ObjectsToRotate = DetermineVerticalPieces().Select(c => c.transform).ToList(),
+                    ObjectsToRotate = objects,
                     Axis = Vector3.right,
-                    Orientation = Orientation.Vertical
+                    Orientation = Orientation.Vertical,
+                    ParentTransform = parentTrans
                 };
             }
         }
@@ -126,24 +150,8 @@ namespace RubiksCube
                 angle = delta.y > 0 ? angle : -angle;
             }
 
-            var tempParent = new GameObject("Temp Parent");
-            tempParent.transform.position = Vector3.zero;
-            foreach (var trans in _rotation.ObjectsToRotate)
-            {
-                trans.SetParent(tempParent.transform);
-                trans.transform.RotateAround(_rotation.Pivot, _rotation.Axis, angle);
-            }
+            _rotation.ParentTransform.Rotate(_rotation.Axis, angle);
             DebugGui.Instance.Print("Rotation", transform.rotation.eulerAngles, "angle", angle);
-        }
-
-        private void AnimateRotation(List<Transform> objectsToRotate, float angle)
-        {
-            foreach (var t in objectsToRotate)
-            {
-                var target = t.rotation;
-                
-                // t.DORotate(_rotateTweenProperties.EndValue, _rotateTweenProperties.Duration).SetEase(_rotateTweenProperties.Ease).set;
-            }
         }
 
         public void OnEndDrag(PointerEventData eventData)
@@ -181,13 +189,21 @@ namespace RubiksCube
             {
                 targetAngle = 270;
             }
+            
+            // TODO: refactor
+            _rotation.ParentTransform.DORotate((_rotation.Axis * (targetAngle - y)) + transform.rotation.eulerAngles, 0.6f).SetEase(Ease.Linear).OnComplete(
+                () =>
+                {
+                    foreach (var t in _rotation.ObjectsToRotate)
+                    {
+                        t.SetParent(_originalParent);
+                    }
+                    Destroy(_rotation.ParentTransform.gameObject);
+                    _rotation = null;
+                });
 
-            foreach (var t in _rotation.ObjectsToRotate)
-            {
-                t.RotateAround(_rotation.Pivot, _rotation.Axis, targetAngle - y);
-            }
             DebugGui.Instance.Print("OnEndDrag", eventData.delta, "final rotation", currentRotation, "targetAngle", targetAngle);
-            _rotation = null;
+
         }
 
         private static bool VerticalDrag(Vector2 delta)
