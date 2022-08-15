@@ -162,7 +162,7 @@ namespace RubiksCube
             }
             
             var currentRotation = transform.rotation.eulerAngles;
-            var y = Mathf.RoundToInt(currentRotation.y);
+            var y = Mathf.RoundToInt(currentRotation.y) % 360;
             
             var diff0 = Mathf.Abs(y);
             var diff1 = Mathf.Abs(y - 360);
@@ -191,20 +191,25 @@ namespace RubiksCube
             }
             
             // TODO: refactor
-            _rotation.ParentTransform.DORotate((_rotation.Axis * (targetAngle - y)) + transform.rotation.eulerAngles, 0.6f).SetEase(Ease.Linear).OnComplete(
-                () =>
-                {
-                    foreach (var t in _rotation.ObjectsToRotate)
-                    {
-                        t.SetParent(_originalParent);
-                    }
-                    Destroy(_rotation.ParentTransform.gameObject);
-                    _rotation = null;
-                });
+            var rotationOffset = _rotation.Axis * targetAngle;
+            // TODO: calculate time
+            var duration = 0.6f;
+           _rotation.ParentTransform.DORotate(rotationOffset, duration).SetEase(Ease.Linear).OnComplete(
+               () =>
+               {
+                   foreach (var t in _rotation.ObjectsToRotate)
+                   {
+                       t.SetParent(_originalParent);
+                   }
+                   Destroy(_rotation.ParentTransform.gameObject);
+                   _rotation = null;
+               });
 
-            DebugGui.Instance.Print("OnEndDrag", eventData.delta, "final rotation", currentRotation, "targetAngle", targetAngle);
+            DebugGui.Instance.Print("OnEndDrag", eventData.delta, "rotationOffset", rotationOffset, "end value", rotationOffset + currentRotation);
 
         }
+        
+        
 
         private static bool VerticalDrag(Vector2 delta)
         {
