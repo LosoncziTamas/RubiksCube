@@ -172,10 +172,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _drawGizmos: 0
   _pivotSphereRadius: 0.1
-  _rotationSpeed: 1
+  _rotationSpeed: 2
   _layer:
     serializedVersion: 2
     m_Bits: 8
+  _rotateTweenProperties: {fileID: 11400000, guid: ff2acc5f6367a4abba6ec10325bec57d, type: 2}
 --- !u!114 &4989835168485626861
 MonoBehaviour:
   m_ObjectHideFlags: 0

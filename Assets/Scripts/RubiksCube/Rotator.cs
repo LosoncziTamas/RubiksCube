@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
@@ -10,6 +9,8 @@ namespace RubiksCube
 {
     public class Rotator : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
+        private static GameObject _tempParent;
+        
         private const int MaxColliderCount = 9;
         private static readonly Vector3 HorizontalOverlapBoxExtents = new(4, 0.25f, 4);
         private static readonly Vector3 VerticalOverlapBoxExtents = new(0.25f, 4, 4);
@@ -33,7 +34,6 @@ namespace RubiksCube
         public class Rotation
         {
             public List<Transform> ObjectsToRotate;
-            public Vector3 Pivot;
             public Vector3 Axis;
             public Orientation Orientation;
             public Transform ParentTransform;
@@ -73,6 +73,10 @@ namespace RubiksCube
 
         private void Awake()
         {
+            if (_tempParent == null)
+            {
+                _tempParent = new GameObject("Temp Parent");
+            }
             _originalParent = transform.parent;
         }
 
@@ -97,15 +101,14 @@ namespace RubiksCube
             if (HorizontalDrag(eventData.delta))
             {
                 var objects = DetermineHorizontalPieces().Select(c => c.transform).ToList();
-                var parentTrans = new GameObject("Temp parent").transform;
-                parentTrans.position = Vector3.zero;
+                var parentTrans = _tempParent.transform;
+                parentTrans.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
                 foreach (var obj in objects)
                 {
                     obj.SetParent(parentTrans);
                 }
                 _rotation = new Rotation
                 {
-                    Pivot = HorizontalPivot,
                     ObjectsToRotate = objects,
                     Axis = Vector3.up,
                     Orientation = Orientation.Horizontal,
@@ -115,15 +118,14 @@ namespace RubiksCube
             else if (VerticalDrag(eventData.delta))
             {
                 var objects = DetermineVerticalPieces().Select(c => c.transform).ToList();
-                var parentTrans = new GameObject("Temp parent").transform;
-                parentTrans.position = Vector3.zero;
+                var parentTrans = _tempParent.transform;
+                parentTrans.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
                 foreach (var obj in objects)
                 {
                     obj.SetParent(parentTrans);
                 }
                 _rotation = new Rotation
                 {
-                    Pivot = VerticalPivot,
                     ObjectsToRotate = objects,
                     Axis = Vector3.right,
                     Orientation = Orientation.Vertical,
@@ -161,7 +163,7 @@ namespace RubiksCube
                 return;
             }
             
-            var currentRotation = transform.rotation.eulerAngles;
+            var currentRotation = _rotation.ParentTransform.rotation.eulerAngles;
             var y = Mathf.RoundToInt(currentRotation.y) % 360;
             
             var diff0 = Mathf.Abs(y);
@@ -169,47 +171,41 @@ namespace RubiksCube
             var diff2 = Mathf.Abs(y - 90);
             var diff3 = Mathf.Abs(y - 180);
             var diff4 = Mathf.Abs(y - 270);
-            var minDiff = Mathf.Min(diff0, diff1, diff2, diff3, diff4);
-
-            var targetAngle = 0;
+            var minDegreeDiff = Mathf.Min(diff0, diff1, diff2, diff3, diff4);
             
-            if (minDiff == diff1 || minDiff == diff0)
+            var targetAngle = 0;
+            if (minDegreeDiff == diff1 || minDegreeDiff == diff0)
             {
                 targetAngle = 0;
             }
-            else if (minDiff == diff2)
+            else if (minDegreeDiff == diff2)
             {
                 targetAngle = 90;
             }
-            else if (minDiff == diff3)
+            else if (minDegreeDiff == diff3)
             {
                 targetAngle = 180;
             }
-            else if (minDiff == diff4)
+            else if (minDegreeDiff == diff4)
             {
                 targetAngle = 270;
             }
+
+            var duration = minDegreeDiff / 45.0f * _rotateTweenProperties.Duration;
             
-            // TODO: refactor
-            var rotationOffset = _rotation.Axis * targetAngle;
-            // TODO: calculate time
-            var duration = 0.6f;
-           _rotation.ParentTransform.DORotate(rotationOffset, duration).SetEase(Ease.Linear).OnComplete(
-               () =>
-               {
-                   foreach (var t in _rotation.ObjectsToRotate)
-                   {
-                       t.SetParent(_originalParent);
-                   }
-                   Destroy(_rotation.ParentTransform.gameObject);
-                   _rotation = null;
-               });
-
-            DebugGui.Instance.Print("OnEndDrag", eventData.delta, "rotationOffset", rotationOffset, "end value", rotationOffset + currentRotation);
-
+            var targetVector = Vector3.up * targetAngle;
+            _rotation.ParentTransform.DORotate(targetVector, duration).SetEase(_rotateTweenProperties.Ease).OnComplete(
+                () =>
+                {
+                    foreach (var t in _rotation.ObjectsToRotate)
+                    {
+                        t.SetParent(_originalParent);
+                    }
+                    _rotation = null;
+                });
+            
+            DebugGui.Instance.Print("OnEndDrag", eventData.delta, "currentRotation", currentRotation, "targetVector", targetVector);
         }
-        
-        
 
         private static bool VerticalDrag(Vector2 delta)
         {
