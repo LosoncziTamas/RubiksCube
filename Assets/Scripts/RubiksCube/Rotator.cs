@@ -156,13 +156,55 @@ namespace RubiksCube
             DebugGui.Instance.Print("Rotation", transform.rotation.eulerAngles, "angle", angle);
         }
 
-        public void OnEndDrag(PointerEventData eventData)
+        private void RotateVertically()
         {
-            if (_rotation == null)
-            {
-                return;
-            }
+            var currentRotation = _rotation.ParentTransform.rotation.eulerAngles;
+            var x = Mathf.RoundToInt(currentRotation.x) % 360;
             
+            var diff0 = Mathf.Abs(x);
+            var diff1 = Mathf.Abs(x - 360);
+            var diff2 = Mathf.Abs(x - 90);
+            var diff3 = Mathf.Abs(x - 180);
+            var diff4 = Mathf.Abs(x - 270);
+            var minDegreeDiff = Mathf.Min(diff0, diff1, diff2, diff3, diff4);
+            
+            var targetAngle = 0;
+            if (minDegreeDiff == diff1 || minDegreeDiff == diff0)
+            {
+                targetAngle = 0;
+            }
+            else if (minDegreeDiff == diff2)
+            {
+                targetAngle = 90;
+            }
+            else if (minDegreeDiff == diff3)
+            {
+                targetAngle = 180;
+            }
+            else if (minDegreeDiff == diff4)
+            {
+                targetAngle = 270;
+            }
+
+            var duration = minDegreeDiff / 45.0f * _rotateTweenProperties.Duration;
+            
+            var targetVector = Vector3.right * targetAngle;
+            _rotation.ParentTransform.DORotate(targetVector, duration).SetEase(_rotateTweenProperties.Ease).OnComplete(
+                () =>
+                {
+                    foreach (var t in _rotation.ObjectsToRotate)
+                    {
+                        t.SetParent(_originalParent);
+                    }
+                    _rotation = null;
+                });
+            
+            DebugGui.Instance.Print("currentRotation", currentRotation, "targetVector", targetVector);
+
+        }
+
+        private void RotateHorizontally()
+        {
             var currentRotation = _rotation.ParentTransform.rotation.eulerAngles;
             var y = Mathf.RoundToInt(currentRotation.y) % 360;
             
@@ -204,7 +246,24 @@ namespace RubiksCube
                     _rotation = null;
                 });
             
-            DebugGui.Instance.Print("OnEndDrag", eventData.delta, "currentRotation", currentRotation, "targetVector", targetVector);
+            DebugGui.Instance.Print("currentRotation", currentRotation, "targetVector", targetVector);
+        }
+
+        public void OnEndDrag(PointerEventData eventData)
+        {
+            if (_rotation == null)
+            {
+                return;
+            }
+
+            if (_rotation.Orientation == Orientation.Horizontal)
+            {
+                RotateHorizontally();
+            }
+            else
+            {
+                RotateVertically();
+            }
         }
 
         private static bool VerticalDrag(Vector2 delta)

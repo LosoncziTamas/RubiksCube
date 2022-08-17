@@ -172,7 +172,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _drawGizmos: 0
   _pivotSphereRadius: 0.1
-  _rotationSpeed: 2
+  _rotationSpeed: 4
   _layer:
     serializedVersion: 2
     m_Bits: 8
