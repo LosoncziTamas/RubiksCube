@@ -160,12 +160,20 @@ namespace RubiksCube
         {
             var currentRotation = _rotation.ParentTransform.rotation.eulerAngles;
             var x = Mathf.RoundToInt(currentRotation.x) % 360;
+            var (targetAngle, duration) = DetermineTargetAngleAndDuration(x);
+            var targetVector = Vector3.right * targetAngle;
+            AnimateRotation(targetVector, duration);
             
-            var diff0 = Mathf.Abs(x);
-            var diff1 = Mathf.Abs(x - 360);
-            var diff2 = Mathf.Abs(x - 90);
-            var diff3 = Mathf.Abs(x - 180);
-            var diff4 = Mathf.Abs(x - 270);
+            DebugGui.Instance.Print("currentRotation", currentRotation, "targetVector", targetVector);
+        }
+
+        private (float targetAngle, float duration) DetermineTargetAngleAndDuration(int value)
+        {
+            var diff0 = Mathf.Abs(value);
+            var diff1 = Mathf.Abs(value - 360);
+            var diff2 = Mathf.Abs(value - 90);
+            var diff3 = Mathf.Abs(value - 180);
+            var diff4 = Mathf.Abs(value - 270);
             var minDegreeDiff = Mathf.Min(diff0, diff1, diff2, diff3, diff4);
             
             var targetAngle = 0;
@@ -187,64 +195,35 @@ namespace RubiksCube
             }
 
             var duration = minDegreeDiff / 45.0f * _rotateTweenProperties.Duration;
-            
-            var targetVector = Vector3.right * targetAngle;
-            _rotation.ParentTransform.DORotate(targetVector, duration).SetEase(_rotateTweenProperties.Ease).OnComplete(
-                () =>
-                {
-                    foreach (var t in _rotation.ObjectsToRotate)
-                    {
-                        t.SetParent(_originalParent);
-                    }
-                    _rotation = null;
-                });
-            
-            DebugGui.Instance.Print("currentRotation", currentRotation, "targetVector", targetVector);
 
+            return (targetAngle, duration);
+        }
+
+        private void AnimateRotation(Vector3 targetVector, float duration)
+        {
+            _rotation.ParentTransform
+                .DORotate(targetVector, duration)
+                .SetEase(_rotateTweenProperties.Ease)
+                .OnComplete(ResetOriginalParent);
+        }
+
+        private void ResetOriginalParent()
+        {
+            foreach (var t in _rotation.ObjectsToRotate)
+            {
+                t.SetParent(_originalParent);
+            }
+            _rotation = null;
         }
 
         private void RotateHorizontally()
         {
             var currentRotation = _rotation.ParentTransform.rotation.eulerAngles;
             var y = Mathf.RoundToInt(currentRotation.y) % 360;
-            
-            var diff0 = Mathf.Abs(y);
-            var diff1 = Mathf.Abs(y - 360);
-            var diff2 = Mathf.Abs(y - 90);
-            var diff3 = Mathf.Abs(y - 180);
-            var diff4 = Mathf.Abs(y - 270);
-            var minDegreeDiff = Mathf.Min(diff0, diff1, diff2, diff3, diff4);
-            
-            var targetAngle = 0;
-            if (minDegreeDiff == diff1 || minDegreeDiff == diff0)
-            {
-                targetAngle = 0;
-            }
-            else if (minDegreeDiff == diff2)
-            {
-                targetAngle = 90;
-            }
-            else if (minDegreeDiff == diff3)
-            {
-                targetAngle = 180;
-            }
-            else if (minDegreeDiff == diff4)
-            {
-                targetAngle = 270;
-            }
-
-            var duration = minDegreeDiff / 45.0f * _rotateTweenProperties.Duration;
-            
+            var (targetAngle, duration) = DetermineTargetAngleAndDuration(y);
             var targetVector = Vector3.up * targetAngle;
-            _rotation.ParentTransform.DORotate(targetVector, duration).SetEase(_rotateTweenProperties.Ease).OnComplete(
-                () =>
-                {
-                    foreach (var t in _rotation.ObjectsToRotate)
-                    {
-                        t.SetParent(_originalParent);
-                    }
-                    _rotation = null;
-                });
+            
+            AnimateRotation(targetVector, duration);
             
             DebugGui.Instance.Print("currentRotation", currentRotation, "targetVector", targetVector);
         }
