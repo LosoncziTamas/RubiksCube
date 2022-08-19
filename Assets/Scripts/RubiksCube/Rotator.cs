@@ -153,7 +153,6 @@ namespace RubiksCube
             }
 
             _rotation.ParentTransform.Rotate(_rotation.Axis, angle);
-            DebugGui.Instance.Print("Rotation", transform.rotation.eulerAngles, "angle", angle);
         }
 
         private void RotateVertically()
@@ -163,8 +162,6 @@ namespace RubiksCube
             var (targetAngle, duration) = DetermineTargetAngleAndDuration(x);
             var targetVector = Vector3.right * targetAngle;
             AnimateRotation(targetVector, duration);
-            
-            DebugGui.Instance.Print("currentRotation", currentRotation, "targetVector", targetVector);
         }
 
         private (float targetAngle, float duration) DetermineTargetAngleAndDuration(int value)
@@ -224,8 +221,6 @@ namespace RubiksCube
             var targetVector = Vector3.up * targetAngle;
             
             AnimateRotation(targetVector, duration);
-            
-            DebugGui.Instance.Print("currentRotation", currentRotation, "targetVector", targetVector);
         }
 
         public void OnEndDrag(PointerEventData eventData)
