@@ -290,7 +290,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4397540255821403313, guid: 1272abf9713724a1faa3a48a0ff8e804, type: 3}
       propertyPath: _rotationSpeed
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1272abf9713724a1faa3a48a0ff8e804, type: 3}
@@ -365,7 +365,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4397540255821403313, guid: 1272abf9713724a1faa3a48a0ff8e804, type: 3}
       propertyPath: _rotationSpeed
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4397540255821403313, guid: 1272abf9713724a1faa3a48a0ff8e804, type: 3}
       propertyPath: _pivotSphereRadius
@@ -430,7 +430,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4397540255821403313, guid: 1272abf9713724a1faa3a48a0ff8e804, type: 3}
       propertyPath: _rotationSpeed
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1272abf9713724a1faa3a48a0ff8e804, type: 3}
@@ -496,7 +496,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4397540255821403313, guid: 1272abf9713724a1faa3a48a0ff8e804, type: 3}
       propertyPath: _rotationSpeed
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1272abf9713724a1faa3a48a0ff8e804, type: 3}
@@ -572,7 +572,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4397540255821403313, guid: 1272abf9713724a1faa3a48a0ff8e804, type: 3}
       propertyPath: _rotationSpeed
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1272abf9713724a1faa3a48a0ff8e804, type: 3}
@@ -633,7 +633,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4397540255821403313, guid: 1272abf9713724a1faa3a48a0ff8e804, type: 3}
       propertyPath: _rotationSpeed
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1272abf9713724a1faa3a48a0ff8e804, type: 3}
@@ -694,7 +694,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4397540255821403313, guid: 1272abf9713724a1faa3a48a0ff8e804, type: 3}
       propertyPath: _rotationSpeed
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1272abf9713724a1faa3a48a0ff8e804, type: 3}
@@ -755,7 +755,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4397540255821403313, guid: 1272abf9713724a1faa3a48a0ff8e804, type: 3}
       propertyPath: _rotationSpeed
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1272abf9713724a1faa3a48a0ff8e804, type: 3}
@@ -816,7 +816,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4397540255821403313, guid: 1272abf9713724a1faa3a48a0ff8e804, type: 3}
       propertyPath: _rotationSpeed
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1272abf9713724a1faa3a48a0ff8e804, type: 3}
@@ -882,7 +882,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4397540255821403313, guid: 1272abf9713724a1faa3a48a0ff8e804, type: 3}
       propertyPath: _rotationSpeed
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1272abf9713724a1faa3a48a0ff8e804, type: 3}
@@ -943,7 +943,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4397540255821403313, guid: 1272abf9713724a1faa3a48a0ff8e804, type: 3}
       propertyPath: _rotationSpeed
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1272abf9713724a1faa3a48a0ff8e804, type: 3}
@@ -1066,7 +1066,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4397540255821403313, guid: 1272abf9713724a1faa3a48a0ff8e804, type: 3}
       propertyPath: _rotationSpeed
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4397540255821403313, guid: 1272abf9713724a1faa3a48a0ff8e804, type: 3}
       propertyPath: _pivotSphereRadius
@@ -1225,7 +1225,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4397540255821403313, guid: 1272abf9713724a1faa3a48a0ff8e804, type: 3}
       propertyPath: _rotationSpeed
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1272abf9713724a1faa3a48a0ff8e804, type: 3}
@@ -1295,7 +1295,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4397540255821403313, guid: 1272abf9713724a1faa3a48a0ff8e804, type: 3}
       propertyPath: _rotationSpeed
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4397540255821403313, guid: 1272abf9713724a1faa3a48a0ff8e804, type: 3}
       propertyPath: _pivotSphereRadius
@@ -1368,7 +1368,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4397540255821403313, guid: 1272abf9713724a1faa3a48a0ff8e804, type: 3}
       propertyPath: _rotationSpeed
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1272abf9713724a1faa3a48a0ff8e804, type: 3}
@@ -1439,7 +1439,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4397540255821403313, guid: 1272abf9713724a1faa3a48a0ff8e804, type: 3}
       propertyPath: _rotationSpeed
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1272abf9713724a1faa3a48a0ff8e804, type: 3}
@@ -1582,7 +1582,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4397540255821403313, guid: 1272abf9713724a1faa3a48a0ff8e804, type: 3}
       propertyPath: _rotationSpeed
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1272abf9713724a1faa3a48a0ff8e804, type: 3}
@@ -1643,7 +1643,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4397540255821403313, guid: 1272abf9713724a1faa3a48a0ff8e804, type: 3}
       propertyPath: _rotationSpeed
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1272abf9713724a1faa3a48a0ff8e804, type: 3}
@@ -1723,7 +1723,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4397540255821403313, guid: 1272abf9713724a1faa3a48a0ff8e804, type: 3}
       propertyPath: _rotationSpeed
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1272abf9713724a1faa3a48a0ff8e804, type: 3}
@@ -1784,7 +1784,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4397540255821403313, guid: 1272abf9713724a1faa3a48a0ff8e804, type: 3}
       propertyPath: _rotationSpeed
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1272abf9713724a1faa3a48a0ff8e804, type: 3}
@@ -1855,7 +1855,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4397540255821403313, guid: 1272abf9713724a1faa3a48a0ff8e804, type: 3}
       propertyPath: _rotationSpeed
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1272abf9713724a1faa3a48a0ff8e804, type: 3}
@@ -1926,7 +1926,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4397540255821403313, guid: 1272abf9713724a1faa3a48a0ff8e804, type: 3}
       propertyPath: _rotationSpeed
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1272abf9713724a1faa3a48a0ff8e804, type: 3}
@@ -1987,7 +1987,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4397540255821403313, guid: 1272abf9713724a1faa3a48a0ff8e804, type: 3}
       propertyPath: _rotationSpeed
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1272abf9713724a1faa3a48a0ff8e804, type: 3}
@@ -2115,7 +2115,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4397540255821403313, guid: 1272abf9713724a1faa3a48a0ff8e804, type: 3}
       propertyPath: _rotationSpeed
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1272abf9713724a1faa3a48a0ff8e804, type: 3}
@@ -2176,7 +2176,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4397540255821403313, guid: 1272abf9713724a1faa3a48a0ff8e804, type: 3}
       propertyPath: _rotationSpeed
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1272abf9713724a1faa3a48a0ff8e804, type: 3}
@@ -2246,7 +2246,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4397540255821403313, guid: 1272abf9713724a1faa3a48a0ff8e804, type: 3}
       propertyPath: _rotationSpeed
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4397540255821403313, guid: 1272abf9713724a1faa3a48a0ff8e804, type: 3}
       propertyPath: _pivotSphereRadius
@@ -2311,7 +2311,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4397540255821403313, guid: 1272abf9713724a1faa3a48a0ff8e804, type: 3}
       propertyPath: _rotationSpeed
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1272abf9713724a1faa3a48a0ff8e804, type: 3}

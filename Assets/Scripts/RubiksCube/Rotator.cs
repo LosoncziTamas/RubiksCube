@@ -30,6 +30,7 @@ namespace RubiksCube
         private Vector3? _verticalPivot;
         private Rotation _rotation;
         private Transform _originalParent;
+        private Camera _camera;
 
         public class Rotation
         {
@@ -78,8 +79,9 @@ namespace RubiksCube
                 _tempParent = new GameObject("Temp Parent");
             }
             _originalParent = transform.parent;
+            _camera = Camera.main;
         }
-
+        
         private void OnDrawGizmos()
         {
             if (!_drawGizmos)
@@ -96,7 +98,23 @@ namespace RubiksCube
         
         public void OnBeginDrag(PointerEventData eventData)
         {
-            DebugGui.Instance.Print("OnBeginDrag0", eventData.delta);
+            var dragOffset = eventData.position - eventData.delta;
+            var dragStartScreenPosition = new Vector3(dragOffset.x, dragOffset.y, 0);
+            var dragStartRay = _camera.ScreenPointToRay(dragStartScreenPosition);
+            var dragEndScreenPosition = new Vector3(eventData.position.x, eventData.position.y, 0);
+            var dragEndRay = _camera.ScreenPointToRay(dragEndScreenPosition);
+            
+            Debug.DrawLine(dragEndRay.origin, dragEndRay.direction * 100, Color.cyan, 2);
+            Debug.DrawLine(dragStartRay.origin, dragStartRay.direction * 100, Color.green, 2);
+
+            var endHitFound = Physics.Raycast(dragEndRay, out var dragEndHit, Mathf.Infinity, _layer);
+            var startHitFound = Physics.Raycast(dragStartRay, out var dragStartHit, Mathf.Infinity, _layer);
+
+            if (endHitFound && startHitFound)
+            {
+                var diff = dragEndHit.point - dragStartHit.point;
+                DebugGui.Instance.Print("Ray hit diff", diff);
+            }
             
             if (HorizontalDrag(eventData.delta))
             {
